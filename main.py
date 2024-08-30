@@ -41,7 +41,7 @@ class FileHandle(tk.Tk):
         ]
 
         for text, command in self.buttons:
-            button = tk.Button(button_frame, text=text, command=command)
+            button = ttk.Button(button_frame, text=text, command=command)
             button.pack(side=tk.LEFT, padx=5)
 
     def create_table(self):
@@ -200,9 +200,9 @@ class FileHandle(tk.Tk):
         btn_box = tk.Frame(popup)
         btn_box.pack(pady=5)
 
-        apply_button = tk.Button(btn_box, text='确定', command=on_apply)
+        apply_button = ttk.Button(btn_box, text='确定', command=on_apply)
         apply_button.pack(side=tk.LEFT, padx=5)
-        close_button = tk.Button(btn_box, text='取消', command=popup.destroy)
+        close_button = ttk.Button(btn_box, text='取消', command=popup.destroy)
         close_button.pack(side=tk.RIGHT, padx=5)
 
         popup.mainloop()
@@ -298,8 +298,5 @@ class FileHandle(tk.Tk):
         OrderTableWindow(self)
 
 if __name__ == "__main__":
-    # 判断是不是在程序有效期 2024年9月15日
-    if datetime.now() > datetime(2024, 8, 15):
-        exit()
     app = FileHandle()
     app.mainloop()
