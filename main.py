@@ -11,7 +11,7 @@ import aiohttp
 from multiprocessing import Process
 import webbrowser
 
-import moonyun
+import app as moonapp
 
 
 class FileHandle(tk.Tk):
@@ -309,7 +309,7 @@ class FileHandle(tk.Tk):
         webbrowser.open('http://localhost:8079')
 
 def run_server():
-        moonyun.run(host='0.0.0.0', port=8079)
+    moonapp.moonyun.run(host='0.0.0.0', port=8079)
 
 if __name__ == "__main__":
     p = Process(target=run_server)
