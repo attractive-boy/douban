@@ -213,11 +213,11 @@
       .table-container {
           overflow-x: auto;
           max-height: 80vh;
-          max-width: 100%;
+          width: 100vw;
         }
 
         table {
-          width: auto; /* 使表格宽度自适应内容 */
+          min-width: 100%; /* 使表格宽度自适应内容 */
           border-collapse: collapse;
           margin-bottom: 20px;
           table-layout: auto; /* 根据内容自动调整列宽 */
@@ -280,22 +280,7 @@
             <label for="task_status">任务状态:</label>
             <input type="text" id="task_status" name="task_status" required />
           </div>
-          <div class="form-row">
-            <label for="account">账号:</label>
-            <input type="text" id="account" name="account" required />
-          </div>
-          <div class="form-row">
-            <label for="ip_address">IP地址:</label>
-            <input type="text" id="ip_address" name="ip_address" required />
-          </div>
-          <div class="form-row">
-            <label for="target_link">目标链接:</label>
-            <input type="text" id="target_link" name="target_link" required />
-          </div>
-          <div class="form-row">
-            <label for="run_status">运行状态:</label>
-            <input type="text" id="run_status" name="run_status" required />
-          </div>
+          
           <button type="submit">添加订单</button>
         </form>
       </div>
