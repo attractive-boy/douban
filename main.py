@@ -308,10 +308,10 @@ class FileHandle(tk.Tk):
     def moon_cloud_system(self):   
         webbrowser.open('http://localhost:8079')
 
+def run_server():
+        moonyun.run(host='0.0.0.0', port=8079)
 
 if __name__ == "__main__":
-    def run_server():
-            moonyun.run(host='0.0.0.0', port=8079)
     p = Process(target=run_server)
     p.start()
     app = FileHandle()
