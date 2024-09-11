@@ -8,8 +8,11 @@ from tkinter import ttk
 import requests
 import asyncio
 import aiohttp
+from multiprocessing import Process
+import webbrowser
 
-from moonyun import OrderTableWindow
+import moonyun
+
 
 class FileHandle(tk.Tk):
     def __init__(self):
@@ -64,14 +67,18 @@ class FileHandle(tk.Tk):
         vsb.pack(side='right', fill='y')
 
     def add_file(self):
-        file_paths = filedialog.askopenfilenames(title="选择文件")
-        if file_paths:
-            for path in file_paths:
-                file_name = os.path.basename(path)
-                new_file_name = file_name
-                state = ''
-                self.files.append([path, file_name, new_file_name, state])
-            self.update_table()
+        folder_path = filedialog.askdirectory(title="选择文件夹")
+
+        if folder_path:
+            # 列出文件夹中的所有文件
+            file_paths = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+            if file_paths:
+                for path in file_paths:
+                    file_name = os.path.basename(path)
+                    new_file_name = file_name
+                    state = ''
+                    self.files.append([path, file_name, new_file_name, state])
+                self.update_table()
 
     def update_table(self):
         for item in self.tree.get_children():
@@ -225,28 +232,32 @@ class FileHandle(tk.Tk):
             row[2] = row[1]
         self.update_table()
     def download_images(self):
-        file_path = filedialog.askopenfilename(title="选择文件", filetypes=[("所有文件", "*.*")])
-        if file_path:
-            # 创建加载中的弹窗并设置进度条
-            self.loading_window = tk.Toplevel(self)
-            self.loading_window.title("下载中...")
-            self.loading_window.geometry("300x100")
-            self.loading_window.transient(self)
-            self.loading_window.grab_set()
+        folder_path = filedialog.askdirectory(title="选择文件夹")
 
-            # 进度条
-            self.progress_bar = ttk.Progressbar(self.loading_window, orient='horizontal', length=250, mode='determinate')
-            self.progress_bar.pack(pady=20)
+        if folder_path:
+            # 列出文件夹中的所有文件
+            file_path = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+            if file_path:
+                # 创建加载中的弹窗并设置进度条
+                self.loading_window = tk.Toplevel(self)
+                self.loading_window.title("下载中...")
+                self.loading_window.geometry("300x100")
+                self.loading_window.transient(self)
+                self.loading_window.grab_set()
 
-            # 获取文件行数作为进度条的总数
-            total_lines = sum(1 for line in open(file_path))
-            self.progress_bar['maximum'] = total_lines
-            self.progress_bar['value'] = 0
-            self.error_url = []
-            # 启动后台线程执行下载任务
-            asyncio.run(self._download_images(file_path))
+                # 进度条
+                self.progress_bar = ttk.Progressbar(self.loading_window, orient='horizontal', length=250, mode='determinate')
+                self.progress_bar.pack(pady=20)
 
-        
+                # 获取文件行数作为进度条的总数
+                total_lines = sum(1 for line in open(file_path))
+                self.progress_bar['maximum'] = total_lines
+                self.progress_bar['value'] = 0
+                self.error_url = []
+                # 启动后台线程执行下载任务
+                asyncio.run(self._download_images(file_path))
+
+            
     async def _download_images(self, file_path):
         async with aiohttp.ClientSession() as session:
             with open(file_path, 'r') as f:
@@ -294,9 +305,14 @@ class FileHandle(tk.Tk):
 
         except Exception as e:
             print(f"Error downloading {url}: {e}")
-    def moon_cloud_system(self):
-        OrderTableWindow(self)
+    def moon_cloud_system(self):   
+        webbrowser.open('http://localhost:8079')
+
 
 if __name__ == "__main__":
+    def run_server():
+            moonyun.run(host='0.0.0.0', port=8079)
+    p = Process(target=run_server)
+    p.start()
     app = FileHandle()
     app.mainloop()
