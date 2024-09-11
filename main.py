@@ -77,7 +77,7 @@ class FileHandle(tk.Tk):
                     file_name = os.path.basename(path)
                     new_file_name = file_name
                     state = ''
-                    self.files.append([path, file_name, new_file_name, state])
+                    self.files.append([os.path.join(folder_path, path), file_name, new_file_name, state])
                 self.update_table()
 
     def update_table(self):
@@ -222,6 +222,7 @@ class FileHandle(tk.Tk):
         for row in self.files:
             new_file_name = row[2]
             new_path = os.path.join(os.path.dirname(row[0]), new_file_name)
+            print(f"{row[0]} -> {new_path}")
             os.rename(row[0], new_path)
             row[1] = new_file_name
             row[3] = '成功'
@@ -232,30 +233,26 @@ class FileHandle(tk.Tk):
             row[2] = row[1]
         self.update_table()
     def download_images(self):
-        folder_path = filedialog.askdirectory(title="选择文件夹")
+        file_path = filedialog.askopenfilename(title="选择文件", filetypes=[("所有文件", "*.*")])
+        if file_path:
+            # 创建加载中的弹窗并设置进度条
+            self.loading_window = tk.Toplevel(self)
+            self.loading_window.title("下载中...")
+            self.loading_window.geometry("300x100")
+            self.loading_window.transient(self)
+            self.loading_window.grab_set()
 
-        if folder_path:
-            # 列出文件夹中的所有文件
-            file_path = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
-            if file_path:
-                # 创建加载中的弹窗并设置进度条
-                self.loading_window = tk.Toplevel(self)
-                self.loading_window.title("下载中...")
-                self.loading_window.geometry("300x100")
-                self.loading_window.transient(self)
-                self.loading_window.grab_set()
+            # 进度条
+            self.progress_bar = ttk.Progressbar(self.loading_window, orient='horizontal', length=250, mode='determinate')
+            self.progress_bar.pack(pady=20)
 
-                # 进度条
-                self.progress_bar = ttk.Progressbar(self.loading_window, orient='horizontal', length=250, mode='determinate')
-                self.progress_bar.pack(pady=20)
-
-                # 获取文件行数作为进度条的总数
-                total_lines = sum(1 for line in open(file_path))
-                self.progress_bar['maximum'] = total_lines
-                self.progress_bar['value'] = 0
-                self.error_url = []
-                # 启动后台线程执行下载任务
-                asyncio.run(self._download_images(file_path))
+            # 获取文件行数作为进度条的总数
+            total_lines = sum(1 for line in open(file_path))
+            self.progress_bar['maximum'] = total_lines
+            self.progress_bar['value'] = 0
+            self.error_url = []
+            # 启动后台线程执行下载任务
+            asyncio.run(self._download_images(file_path))
 
             
     async def _download_images(self, file_path):

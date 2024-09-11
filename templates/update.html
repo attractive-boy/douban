@@ -160,6 +160,31 @@
         border-radius: 4px;
         display: inline-block;
       }
+      .table-container {
+          overflow-x: auto;
+          max-height: 80vh;
+          max-width: 100%;
+        }
+
+        table {
+          width: auto; /* 使表格宽度自适应内容 */
+          border-collapse: collapse;
+          margin-bottom: 20px;
+          table-layout: auto; /* 根据内容自动调整列宽 */
+        }
+
+        th,
+        td {
+          border: 1px solid lightgray;
+          padding: 15px;
+          text-align: center;
+          white-space: nowrap; /* 防止内容换行 */
+        }
+
+        /* 如果某些列需要特定的宽度 */
+        th, td {
+          min-width: 100px; /* 最小列宽，可以根据需要调整 */
+        }
     </style>
     <!-- 引入SheetJS库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>

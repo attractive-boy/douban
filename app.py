@@ -45,12 +45,15 @@ def index():
     # 渲染页面，并传递订单数据
     return render_template('index.html', orders=orders)
 
-@moonyun.route('/delete/<int:index>', methods=['POST'])
-def delete_order(index):
-    if 0 <= index < len(orders):
-        del orders[index]
-        save_orders(orders)
+@moonyun.route('/delete_order/<int:order_id>', methods=['GET'])
+def delete_order(order_id):
+    global orders
+    # 寻找要删除的订单
+    orders = [order for order in orders if order['order_id'] != str(order_id)]
+    # 保存更新后的订单列表
+    save_orders(orders)
     return redirect(url_for('index'))
+    
 
 @moonyun.route('/update/<int:index>', methods=['GET', 'POST'])
 def update_order(index):
