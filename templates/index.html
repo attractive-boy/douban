@@ -211,30 +211,31 @@
         background-color: #2c4a70;
       }
       .table-container {
-          overflow-x: auto;
-          max-height: 80vh;
-          width: 100vw;
-        }
+        overflow-x: auto;
+        max-height: 80vh;
+        width: 95vw;
+      }
 
-        table {
-          min-width: 100%; /* 使表格宽度自适应内容 */
-          border-collapse: collapse;
-          margin-bottom: 20px;
-          table-layout: auto; /* 根据内容自动调整列宽 */
-        }
+      table {
+        min-width: 100%; /* 使表格宽度自适应内容 */
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        table-layout: auto; /* 根据内容自动调整列宽 */
+      }
 
-        th,
-        td {
-          border: 1px solid lightgray;
-          padding: 15px;
-          text-align: center;
-          white-space: nowrap; /* 防止内容换行 */
-        }
+      th,
+      td {
+        border: 1px solid lightgray;
+        padding: 15px;
+        text-align: center;
+        white-space: nowrap; /* 防止内容换行 */
+      }
 
-        /* 如果某些列需要特定的宽度 */
-        th, td {
-          min-width: 100px; /* 最小列宽，可以根据需要调整 */
-        }
+      /* 如果某些列需要特定的宽度 */
+      th,
+      td {
+        min-width: 100px; /* 最小列宽，可以根据需要调整 */
+      }
     </style>
   </head>
   <body>
@@ -248,27 +249,37 @@
         <h2>添加订单</h2>
         <form id="addOrderForm" method="post" action="/add_order">
           <div class="form-row">
-            <label for="order_id">订单编号:</label>
+            <label for="order_id" data-original-label="订单编号"
+              >订单编号:</label
+            >
             <input type="text" id="order_id" name="order_id" required />
           </div>
           <div class="form-row">
-            <label for="task_type">任务类型:</label>
+            <label for="task_type" data-original-label="任务类型"
+              >任务类型:</label
+            >
             <input type="text" id="task_type" name="task_type" required />
           </div>
           <div class="form-row">
-            <label for="start_date">开始日期:</label>
+            <label for="start_date" data-original-label="开始日期"
+              >开始日期:</label
+            >
             <input type="text" id="start_date" name="start_date" required />
           </div>
           <div class="form-row">
-            <label for="keyword">关键词:</label>
+            <label for="keyword" data-original-label="关键词">关键词:</label>
             <input type="text" id="keyword" name="keyword" required />
           </div>
           <div class="form-row">
-            <label for="task_amount">任务数量:</label>
+            <label for="task_amount" data-original-label="任务数量"
+              >任务数量:</label
+            >
             <input type="number" id="task_amount" name="task_amount" required />
           </div>
           <div class="form-row">
-            <label for="execution_count">执行数量:</label>
+            <label for="execution_count" data-original-label="执行数量"
+              >执行数量:</label
+            >
             <input
               type="number"
               id="execution_count"
@@ -277,10 +288,12 @@
             />
           </div>
           <div class="form-row">
-            <label for="task_status">任务状态:</label>
+            <label for="task_status" data-original-label="任务状态"
+              >任务状态:</label
+            >
             <input type="text" id="task_status" name="task_status" required />
           </div>
-          
+
           <button type="submit">添加订单</button>
         </form>
       </div>
@@ -293,11 +306,15 @@
         <h2>更新订单</h2>
         <form id="updateForm" method="post" action="">
           <div class="form-row">
-            <label for="update_order_id">订单编号:</label>
+            <label for="update_order_id" data-original-label="订单编号"
+              >订单编号:</label
+            >
             <input type="text" id="update_order_id" name="order_id" required />
           </div>
           <div class="form-row">
-            <label for="update_task_type">任务类型:</label>
+            <label for="update_task_type" data-original-label="任务类型"
+              >任务类型:</label
+            >
             <input
               type="text"
               id="update_task_type"
@@ -306,7 +323,9 @@
             />
           </div>
           <div class="form-row">
-            <label for="update_start_date">执行时间:</label>
+            <label for="update_start_date" data-original-label="执行时间"
+              >执行时间:</label
+            >
             <input
               type="text"
               id="update_start_date"
@@ -315,11 +334,15 @@
             />
           </div>
           <div class="form-row">
-            <label for="update_keyword">关键词:</label>
+            <label for="update_keyword" data-original-label="关键词"
+              >关键词:</label
+            >
             <input type="text" id="update_keyword" name="keyword" required />
           </div>
           <div class="form-row">
-            <label for="update_task_amount">任务数量:</label>
+            <label for="update_task_amount" data-original-label="任务数量"
+              >任务数量:</label
+            >
             <input
               type="number"
               id="update_task_amount"
@@ -328,7 +351,9 @@
             />
           </div>
           <div class="form-row">
-            <label for="update_execution_count">执行进度:</label>
+            <label for="update_execution_count" data-original-label="执行进度"
+              >执行进度:</label
+            >
             <input
               type="text"
               id="update_execution_count"
@@ -337,7 +362,9 @@
             />
           </div>
           <div class="form-row">
-            <label for="update_task_status">任务状态:</label>
+            <label for="update_task_status" data-original-label="任务状态"
+              >任务状态:</label
+            >
             <input
               type="text"
               id="update_task_status"
@@ -356,13 +383,13 @@
       <table>
         <thead>
           <tr>
-            <th>订单编号</th>
-            <th>任务类型</th>
-            <th>开始日期</th>
-            <th>关键词</th>
-            <th>任务数量</th>
-            <th>执行数量</th>
-            <th>任务状态</th>
+            <th id="order-link-header" onclick="toggleHeaders()">订单编号</th>
+            <th id="task-type-header">任务类型</th>
+            <th id="start-date-header">开始日期</th>
+            <th id="keyword-header">关键词</th>
+            <th id="task-amount-header">任务数量</th>
+            <th id="execution-count-header">执行数量</th>
+            <th id="task-status-header">任务状态</th>
             <th>操作</th>
           </tr>
         </thead>
@@ -462,13 +489,56 @@
       };
 
       function deleteOrder() {
-        const orderId = document.getElementById('update_order_id').value;
-        if (confirm('确定要删除这个订单吗？')) {
-          fetch('/delete_order/' + orderId).then(res=>{
+        const orderId = document.getElementById("update_order_id").value;
+        if (confirm("确定要删除这个订单吗？")) {
+          fetch("/delete_order/" + orderId).then((res) => {
             window.location.reload();
-          })
-          
+          });
         }
+      }
+
+      function toggleHeaders() {
+        const orderLinkHeader = document.getElementById("order-link-header");
+        const keywordHeader = document.getElementById("keyword-header");
+        const executionCountHeader = document.getElementById(
+          "execution-count-header"
+        );
+        const taskAmountHeader = document.getElementById("task-amount-header");
+
+        const isOrderLinkVisible = orderLinkHeader.textContent === "订单编号";
+
+        if (isOrderLinkVisible) {
+          orderLinkHeader.textContent = "执行进度";
+          keywordHeader.textContent = "执行数量";
+          executionCountHeader.textContent = "目标链接";
+          taskAmountHeader.textContent = "任务数量";
+
+          updateLabels("执行进度", "执行数量", "目标链接", "任务数量");
+        } else {
+          orderLinkHeader.textContent = "订单编号";
+          keywordHeader.textContent = "关键词";
+          executionCountHeader.textContent = "执行数量";
+          taskAmountHeader.textContent = "任务数量";
+
+          updateLabels("订单编号", "任务类型", "开始日期", "关键词");
+        }
+      }
+
+      function updateLabels(orderId, taskType, startDate, keyword) {
+        document.querySelector('label[for="order_id"]').textContent =
+          orderId + ":";
+        document.querySelector('label[for="task_type"]').textContent =
+          taskType + ":";
+        document.querySelector('label[for="start_date"]').textContent =
+          startDate + ":";
+        document.querySelector('label[for="keyword"]').textContent =
+          keyword + ":";
+        document.querySelector('label[for="task_amount"]').textContent =
+          "任务数量:";
+        document.querySelector('label[for="execution_count"]').textContent =
+          "执行数量:";
+        document.querySelector('label[for="task_status"]').textContent =
+          "任务状态:";
       }
     </script>
   </body>
