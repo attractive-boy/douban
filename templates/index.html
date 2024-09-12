@@ -276,14 +276,14 @@
             <label for="task_amount" data-original-label="任务数量"
               >任务数量:</label
             >
-            <input type="number" id="task_amount" name="task_amount" required />
+            <input  id="task_amount" name="task_amount" required />
           </div>
           <div class="form-row">
             <label for="execution_count" data-original-label="执行进度"
               >执行进度:</label
             >
             <input
-              type="number"
+
               id="execution_count"
               name="execution_count"
               required
@@ -346,7 +346,7 @@
               >任务数量:</label
             >
             <input
-              type="number"
+
               id="update_task_amount"
               name="task_amount"
               required
@@ -415,8 +415,8 @@
             <td>
               {% if order.task_status == '已完成' %}
               <span class="completed">已完成</span>
-              {% elif order.task_status == '进行中' %}
-              <span class="in-progress">进行中</span>
+              {% elif order.task_status == '执行中' %}
+              <span class="in-progress">执行中</span>
               {% elif order.task_status == '已暂停' %}
               <span class="paused">已暂停</span>
               {% else %}
