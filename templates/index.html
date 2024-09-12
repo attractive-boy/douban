@@ -213,7 +213,7 @@
       .table-container {
         overflow-x: auto;
         max-height: 80vh;
-        width: 95vw;
+        width: calc(100vw - 40px);
       }
 
       table {
@@ -267,7 +267,9 @@
             <input type="text" id="start_date" name="start_date" required />
           </div>
           <div class="form-row">
-            <label for="keyword" data-original-label="关键词">关键词:</label>
+            <label for="keyword" data-original-label="目标链接"
+              >目标链接:</label
+            >
             <input type="text" id="keyword" name="keyword" required />
           </div>
           <div class="form-row">
@@ -277,8 +279,8 @@
             <input type="number" id="task_amount" name="task_amount" required />
           </div>
           <div class="form-row">
-            <label for="execution_count" data-original-label="执行数量"
-              >执行数量:</label
+            <label for="execution_count" data-original-label="执行进度"
+              >执行进度:</label
             >
             <input
               type="number"
@@ -323,8 +325,8 @@
             />
           </div>
           <div class="form-row">
-            <label for="update_start_date" data-original-label="执行时间"
-              >执行时间:</label
+            <label for="update_start_date" data-original-label="开始时间"
+              >开始时间:</label
             >
             <input
               type="text"
@@ -334,8 +336,8 @@
             />
           </div>
           <div class="form-row">
-            <label for="update_keyword" data-original-label="关键词"
-              >关键词:</label
+            <label for="update_keyword" data-original-label="目标链接"
+              >目标链接:</label
             >
             <input type="text" id="update_keyword" name="keyword" required />
           </div>
@@ -386,9 +388,9 @@
             <th id="order-link-header" onclick="toggleHeaders()">订单编号</th>
             <th id="task-type-header">任务类型</th>
             <th id="start-date-header">开始日期</th>
-            <th id="keyword-header">关键词</th>
+            <th id="keyword-header">目标链接</th>
             <th id="task-amount-header">任务数量</th>
-            <th id="execution-count-header">执行数量</th>
+            <th id="execution-count-header">执行进度</th>
             <th id="task-status-header">任务状态</th>
             <th>操作</th>
           </tr>
@@ -505,40 +507,31 @@
         );
         const taskAmountHeader = document.getElementById("task-amount-header");
 
-        const isOrderLinkVisible = orderLinkHeader.textContent === "订单编号";
+        const isOrderLinkVisible = keywordHeader.textContent === "关键词";
 
         if (isOrderLinkVisible) {
-          orderLinkHeader.textContent = "执行进度";
-          keywordHeader.textContent = "执行数量";
-          executionCountHeader.textContent = "目标链接";
-          taskAmountHeader.textContent = "任务数量";
+          keywordHeader.textContent = "目标链接";
+          executionCountHeader.textContent = "执行进度";
 
-          updateLabels("执行进度", "执行数量", "目标链接", "任务数量");
+          updateLabels("执行进度", "目标链接");
         } else {
-          orderLinkHeader.textContent = "订单编号";
           keywordHeader.textContent = "关键词";
-          executionCountHeader.textContent = "执行数量";
-          taskAmountHeader.textContent = "任务数量";
+          executionCountHeader.textContent = "完成数量";
 
-          updateLabels("订单编号", "任务类型", "开始日期", "关键词");
+          updateLabels("完成数量", "关键词");
         }
       }
 
-      function updateLabels(orderId, taskType, startDate, keyword) {
-        document.querySelector('label[for="order_id"]').textContent =
-          orderId + ":";
-        document.querySelector('label[for="task_type"]').textContent =
-          taskType + ":";
-        document.querySelector('label[for="start_date"]').textContent =
-          startDate + ":";
+      function updateLabels(execution_count, keyword) {
+        document.querySelector('label[for="execution_count"]').textContent =
+          execution_count + ":";
         document.querySelector('label[for="keyword"]').textContent =
           keyword + ":";
-        document.querySelector('label[for="task_amount"]').textContent =
-          "任务数量:";
-        document.querySelector('label[for="execution_count"]').textContent =
-          "执行数量:";
-        document.querySelector('label[for="task_status"]').textContent =
-          "任务状态:";
+        document.querySelector('label[for="update_keyword"]').textContent =
+          keyword + ":";
+        document.querySelector(
+          'label[for="update_execution_count"]'
+        ).textContent = execution_count + ":";
       }
     </script>
   </body>
