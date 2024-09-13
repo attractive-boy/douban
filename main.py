@@ -1,4 +1,5 @@
 from datetime import datetime
+import shutil
 import threading
 import tkinter as tk
 from tkinter import simpledialog, messagebox, filedialog
@@ -12,6 +13,7 @@ from multiprocessing import Process
 import webbrowser
 
 import app as moonapp
+from qrcode import Qrcodeextract
 
 
 class FileHandle(tk.Tk):
@@ -19,7 +21,7 @@ class FileHandle(tk.Tk):
         super().__init__()
 
         self.title("文件名精灵v1.0")
-        self.geometry("800x600")
+        self.geometry("1000x600")
         self.files = []
 
         # 创建按钮
@@ -40,7 +42,9 @@ class FileHandle(tk.Tk):
             ("清空列表", self.clear_list),
             ("恢复原名", self.restore_names),
             ("下载图片", self.download_images),
-            ("月球云系统", self.moon_cloud_system)
+            ("月球云系统", self.moon_cloud_system),
+            ("文件拷贝", self.open_copy_window),
+            ("二维码提取", self.qrcode_extract) 
         ]
 
         for text, command in self.buttons:
@@ -305,6 +309,71 @@ class FileHandle(tk.Tk):
     def moon_cloud_system(self):   
         webbrowser.open('http://localhost:8079')
 
+    def open_copy_window(self):
+        # 弹出新窗口
+        copy_window = tk.Toplevel(self)
+        copy_window.title("文件拷贝")
+        copy_window.geometry("400x300")
+
+        # 添加源文件夹按钮
+        source_button = ttk.Button(copy_window, text="选择源文件夹", command=self.select_source_folder)
+        source_button.pack(pady=10)
+
+        # 添加目标文件夹按钮
+        destination_button = ttk.Button(copy_window, text="选择目标文件夹", command=self.select_destination_folder)
+        destination_button.pack(pady=10)
+
+        # 创建一个标签来显示选择的路径
+        self.source_label = tk.Label(copy_window, text="源文件夹: 未选择")
+        self.source_label.pack(pady=5)
+
+        self.destination_label = tk.Label(copy_window, text="目标文件夹: 未选择")
+        self.destination_label.pack(pady=5)
+
+        # 执行修改的按钮
+        execute_button = ttk.Button(copy_window, text="执行复制", command=self.copy_and_modify_files)
+        execute_button.pack(pady=20)
+
+    def select_source_folder(self):
+        # 弹出选择源文件夹对话框
+        self.source_folder = filedialog.askdirectory(title="选择源文件夹")
+        if self.source_folder:
+            self.source_label.config(text=f"源文件夹: {self.source_folder}")
+
+    def select_destination_folder(self):
+        # 弹出选择目标文件夹对话框
+        self.destination_folder = filedialog.askdirectory(title="选择目标文件夹")
+        if self.destination_folder:
+            self.destination_label.config(text=f"目标文件夹: {self.destination_folder}")
+
+    def copy_and_modify_files(self):
+        if not self.source_folder or not self.destination_folder:
+            messagebox.showwarning("错误", "请先选择源文件夹和目标文件夹！")
+            return
+
+        # 确认执行操作
+        response = messagebox.askokcancel(
+            "确认", f"源文件夹: {self.source_folder}\n目标文件夹: {self.destination_folder}\n\n是否确认执行复制？"
+        )
+        if response:
+            try:
+                # 执行文件复制和修改操作
+                self._copy_files(self.source_folder, self.destination_folder)
+                messagebox.showinfo("完成", "文件复制成功！")
+            except Exception as e:
+                messagebox.showerror("错误", f"执行操作时出错: {e}")
+
+    def _copy_files(self, source_folder, destination_folder):
+        for item in os.listdir(source_folder):
+            source_path = os.path.join(source_folder, item)
+            destination_path = os.path.join(destination_folder, item)
+            if os.path.isfile(source_path):
+                shutil.copy2(source_path, destination_path)
+            elif os.path.isdir(source_path):
+                shutil.copytree(source_path, destination_path, dirs_exist_ok=True)
+        
+    def qrcode_extract(self):
+        Qrcodeextract(self)
 def run_server():
     moonapp.moonyun.run(host='0.0.0.0', port=8079)
 
